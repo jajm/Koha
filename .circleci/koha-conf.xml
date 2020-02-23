@@ -1,0 +1,54 @@
+<yazgfs>
+  <config>
+    <db_scheme>mysql</db_scheme>
+    <hostname>127.0.0.1</hostname>
+    <port>3306</port>
+    <database>koha</database>
+    <user>koha</user>
+    <pass>koha</pass>
+    <tls>no</tls>
+    <pluginsdir>/app/plugins</pluginsdir>
+    <enable_plugins>1</enable_plugins>
+    <upload_path></upload_path>
+    <tmp_path>/tmp</tmp_path>
+    <intranetdir>/app/koha</intranetdir>
+    <opacdir>/app/koha/opac</opacdir>
+    <opachtdocs>/app/koha/koha-tmpl/opac-tmpl</opachtdocs>
+    <intrahtdocs>/app/koha/koha-tmpl/intranet-tmpl</intrahtdocs>
+    <includes>/app/koha/koha-tmpl/intranet-tmpl/prog/en/includes/</includes>
+    <logdir>/app/var/log</logdir>
+    <docdir>/app/koha/docs</docdir>
+    <backup_db_via_tools>0</backup_db_via_tools>
+    <backup_conf_via_tools>0</backup_conf_via_tools>
+    <useldapserver>0</useldapserver>
+    <useshibboleth>0</useshibboleth>
+    <queryparser_config>/app/koha/etc/searchengine/queryparser.yaml</queryparser_config>
+    <memcached_servers>127.0.0.1:11211</memcached_servers>
+    <memcached_namespace>koha</memcached_namespace>
+    <template_cache_dir>/tmp</template_cache_dir>
+    <api_secret_passphrase>secret</api_secret_passphrase>
+    <ttf>
+      <font type="TR">/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf</font>
+      <font type="TB">/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf</font>
+      <font type="TI">/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf</font>
+      <font type="TBI">/usr/share/fonts/truetype/dejavu/DejaVuSerif-BoldItalic.ttf</font>
+      <font type="C">/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf</font>
+      <font type="CB">/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf</font>
+      <font type="CO">/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf</font>
+      <font type="CBO">/usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf</font>
+      <font type="H">/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf</font>
+      <font type="HO">/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf</font>
+      <font type="HB">/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf</font>
+      <font type="HBO">/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf</font>
+    </ttf>
+    <sms_send_config>/app/etc/sms_send/</sms_send_config>
+    <mana_config>https://mana-kb.koha-community.org</mana_config>
+    <elasticsearch>
+      <server>127.0.0.1:9200</server>
+      <index_name>koha</index_name>
+      <cxn_pool>Static</cxn_pool>
+      <client>6_0::Direct</client>
+    </elasticsearch>
+    <timezone></timezone>
+  </config>
+</yazgfs>
