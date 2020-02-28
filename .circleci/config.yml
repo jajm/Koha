@@ -19,6 +19,7 @@ executors:
         environment:
           discovery.type: single-node
           ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+      - image: selenium/standalone-firefox:2.53.1-americium
     working_directory: /app/koha
     environment:
       PERL5LIB: /app/koha:/app/.local/lib/perl5
@@ -63,6 +64,7 @@ jobs:
             apt-get update
             apt-get install -y \
                 at \
+                default-mysql-client \
                 fonts-dejavu \
                 gettext \
                 idzebra-2.0 \
@@ -99,7 +101,9 @@ jobs:
                 PPI \
                 Readonly \
                 Readonly::XS \
+                Selenium::Remote::Driver \
                 SMS::Send::Test \
+                Starman \
                 Sys::CPU \
                 TAP::Harness::JUnit \
                 Test::DBIx::Class \
@@ -133,16 +137,6 @@ jobs:
           name: Populate database
           command: perl .circleci/populate-database.pl
 
-      # Those tests should be automatically skipped but they are not
-      - run:
-          name: Remove tests that should not be run
-          command: |
-            rm -f t/db_dependent/selenium/administration_tasks.t
-            rm -f t/db_dependent/selenium/regressions.t
-            rm -f t/db_dependent/selenium/patrons_search.t
-            rm -f t/db_dependent/selenium/update_child_to_adult.t
-            rm -f t/db_dependent/www/regressions.t
-
       # /usr/bin/perl can be a different version of the one we want to use
       # Change the shebang so that it uses the correct perl version
       - run:
@@ -150,16 +144,26 @@ jobs:
           command: sed -i 's/#!\/usr\/bin\/perl/#!\/usr\/bin\/env perl/' t/db_dependent/default_search_class.pl t/db_dependent/zebra_config.pl
 
       - run:
+          name: Run starman in background for selenium tests
+          command: /app/.local/bin/starman .circleci/app.psgi --listen :5000 --listen :5001
+          background: true
+
+      - run:
           name: Run tests
           environment:
             KOHA_PROVE_CPUS: 2
             JUNIT_OUTPUT_FILE: test-results/main/results.xml
             JUNIT_NAME_MANGLE: perl
+            KOHA_USER: '001'
+            KOHA_PASS: 'Secret1'
+            SELENIUM_ADDR: localhost
+            KOHA_INTRANET_URL: http://localhost:5000
+            KOHA_OPAC_URL: http://localhost:5001
           # t/Logger.t fails if run as root, so run tests as a normal user
           command: |
             adduser --quiet --disabled-password --gecos '' koha
             mkdir -p test-results/main
-            chown -R koha:koha test-results
+            chown -R koha:koha /app/koha
             su -c 'prove --nocount --timer --harness TAP::Harness::JUnit --recurse t' koha
 
       - store_test_results:

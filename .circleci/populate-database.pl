@@ -61,11 +61,13 @@ Koha::CirculationRules->set_rules({
 });
 
 # Some tests use the borrowernumber 51, so we have to create it
-# First 50 borrowers are created by C4::Installer
+# The first 50 borrowers are created by C4::Installer
 require Koha::Patron;
-Koha::Patron->new({
+my $patron = Koha::Patron->new({
     categorycode => 'S',
     branchcode => 'CPL',
     cardnumber => '001',
     userid => '001',
+    flags => 1,
 })->store();
+$patron->set_password({ password => 'Secret1' });
